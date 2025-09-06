@@ -9,12 +9,12 @@ export const createClient = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        async get(name: string) {
-          return (await cookieStore.get(name))?.value;
+        get(name: string) {
+          return cookieStore.get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value, ...options });
+            cookies().set({ name, value, ...options });
           } catch (error) {
             // The `cookies().set()` method can only be called in a Server Component or Route Handler
             // This error is typically caught and handled by Next.js itself.
@@ -22,7 +22,7 @@ export const createClient = () => {
         },
         remove(name: string, options: CookieOptions) {
           try {
-            cookieStore.set({ name, value: "", ...options });
+            cookies().set({ name, value: "", ...options });
           } catch (error) {
             // The `cookies().set()` method can only be called in a Server Component or Route Handler
             // This error is typically caught and handled by Next.js itself.
