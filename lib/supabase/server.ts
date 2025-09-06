@@ -8,10 +8,12 @@ export const createClient = () => {
     {
       cookies: {
         get(name: string) {
+          // Correctly get a cookie from the request headers
           return cookies().get(name)?.value;
         },
         set(name: string, value: string, options: CookieOptions) {
           try {
+            // Correctly set a cookie to the response headers
             cookies().set({ name, value, ...options });
           } catch (error) {
             // The `cookies().set()` method can only be called in a Server Component or Route Handler
@@ -20,10 +22,11 @@ export const createClient = () => {
         },
         remove(name: string, options: CookieOptions) {
           try {
+            // Correctly remove a cookie from the response headers
             cookies().set({ name, value: "", ...options });
           } catch (error) {
             // The `cookies().set()` method can only be called in a Server Component or Route Handler
-            // This error is typically caught and handled by Next.js itself.
+            // This error is typically caught and handled by Next.js itself.\
           }
         },
       },
