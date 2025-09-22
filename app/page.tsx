@@ -171,6 +171,6 @@ export default function Home() {
           </CardContent>
         </Card>
       </section>
-    </main>
+      </main>
   );
 }
