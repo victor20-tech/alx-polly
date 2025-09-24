@@ -1,42 +1,71 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
+import { useState } from "react"
+
+import { signUp } from "../_actions/auth"
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    // TODO: Implement sign-up logic with your auth provider
-  }
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Create account</CardTitle>
-        <CardDescription>Start creating polls and voting with others.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form className="grid gap-4" onSubmit={onSubmit}>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Create your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" action={signUp}>
+          <div>
+            <Label htmlFor="email">Email address</Label>
+            <div className="mt-2">
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+              />
+            </div>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+
+          <div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+            </div>
+            <div className="mt-2">
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+              />
+            </div>
           </div>
-          <Button type="submit" className="w-full">Sign up</Button>
+
+          <div>
+            <Button type="submit" className="w-full">
+              Sign up
+            </Button>
+          </div>
         </form>
-      </CardContent>
-      <CardFooter className="text-sm text-muted-foreground">By continuing you agree to our terms.</CardFooter>
-    </Card>
-  );
+
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Already a member?{" "}
+          <Link
+            href="/signin"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
 }
 
 

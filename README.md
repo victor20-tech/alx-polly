@@ -46,6 +46,6 @@ AI is used as a collaborative partner to enhance productivity, improve code qual
 - **README Maintenance:** AI assists in keeping README updated with setup instructions and reflections on AI usage.  
 
 ### Context-Aware Techniques
-- **Project Rule Files:** `.cursor-rules` file defines tech stack, patterns (Server Actions for mutations), and coding conventions.  
+- **Project Rule Files:** `.trae` file defines tech stack, patterns (Server Actions for mutations), and coding conventions.  
 - **API/Schema Awareness:** Supabase schema shared with AI to generate type-safe functions and API route handlers.  
 - **File & Diff Context:** Use symbolic references (e.g., `@file`) or `git diff` with AI for focused debugging and refactoring.

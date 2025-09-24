@@ -2,15 +2,38 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase";
+import { signOut } from "@/app/(auth)/_actions/auth";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [user, setUser] = useState<any>(null);
 
+  useEffect(() => {
+    let isMounted = true;
+    const supabase = createClient();
+    supabase.auth.getUser()
+      .then(({ data: { user } }) => {
+        if (isMounted) {
+          setUser(user);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching user:', error);
+        if (isMounted) {
+          setUser(null);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   return (
-    <header className="sticky top-0 z-20 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-20 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link href="/" className="font-semibold">ALX Polly</Link>
@@ -20,8 +43,16 @@ export function SiteHeader() {
           </nav>
         </div>
         <div className="hidden md:flex items-center gap-2">
-          <Link href="/signin"><Button variant="ghost" size="sm">Sign in</Button></Link>
-          <Link href="/signup"><Button size="sm">Sign up</Button></Link>
+          {user ? (
+            <form action={signOut}>
+              <Button variant="ghost" size="sm" type="submit">Logout</Button>
+            </form>
+          ) : (
+            <>
+              <Link href="/signin"><Button variant="ghost" size="sm">Sign in</Button></Link>
+              <Link href="/signup"><Button size="sm">Sign up</Button></Link>
+            </>
+          )}
         </div>
         <button
           aria-label="Toggle menu"
@@ -35,13 +66,21 @@ export function SiteHeader() {
         </button>
       </div>
       {open && (
-        <div className="md:hidden border-t bg-background">
+        <div className="md:hidden bg-background">
           <div className="container py-4 grid gap-3">
             <Link href="/polls" className="text-foreground/80 hover:text-foreground">Browse</Link>
             <Link href="/polls/new" className="text-foreground/80 hover:text-foreground">Create</Link>
             <div className="flex items-center gap-2 pt-2">
-              <Link href="/signin"><Button variant="ghost" size="sm" className="w-full">Sign in</Button></Link>
-              <Link href="/signup"><Button size="sm" className="w-full">Sign up</Button></Link>
+              {user ? (
+                <form action={signOut} className="w-full">
+                  <Button variant="ghost" size="sm" type="submit" className="w-full">Logout</Button>
+                </form>
+              ) : (
+                <>
+                  <Link href="/signin"><Button variant="ghost" size="sm" className="w-full">Sign in</Button></Link>
+                  <Link href="/signup"><Button size="sm" className="w-full">Sign up</Button></Link>
+                </>
+              )}
             </div>
           </div>
         </div>

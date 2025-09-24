@@ -1,42 +1,87 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import Link from "next/link"
+import { useState } from "react"
+
+import { signIn } from "../_actions/auth"
 
 export default function SignInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    // TODO: Implement sign-in logic with your auth provider
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // Implement Supabase sign-in logic here
+    console.log("Sign In with:", { email, password })
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sign in</CardTitle>
-        <CardDescription>Access your account to create and vote on polls.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form className="grid gap-4" onSubmit={onSubmit}>
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Sign in to your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" action={signIn}>
+          <div>
+            <Label htmlFor="email">Email address</Label>
+            <div className="mt-2">
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+              />
+            </div>
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+
+          <div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <div className="text-sm">
+                <Link
+                  href="/forgot-password"
+                  className="font-semibold text-indigo-600 hover:text-indigo-500"
+                >
+                  Forgot password?
+                </Link>              </div>
+            </div>
+            <div className="mt-2">
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+              />
+            </div>
           </div>
-          <Button type="submit" className="w-full">Sign in</Button>
+
+          <div>
+            <Button type="submit" className="w-full">
+              Sign in
+            </Button>
+          </div>
         </form>
-      </CardContent>
-      <CardFooter className="text-sm text-muted-foreground">Don't have an account? Sign up coming soon.</CardFooter>
-    </Card>
-  );
+
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Not a member?{" "}
+          <Link
+            href="/signup"
+            className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+          >
+            Sign up
+          </Link>
+        </p>
+      </div>
+    </div>
+  )
 }
 
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t bg-muted/30">
+    <footer className="bg-muted/30">
       <div className="container py-12">
         <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-2">
           {/* Brand */}
@@ -58,7 +58,7 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t mt-12 pt-8">
+        <div className="mt-12 pt-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} ALX Polly. All rights reserved.
